@@ -65,11 +65,11 @@ class _MyHomePageState extends State<MyHomePage> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if(image == null) return;
-      // locateionImg = image.path.toString();
-      final imageTemp = File(image.path);
-      locateionImg = imageTemp.toString();
+      locateionImg = image.path.toString();
+      final imageTemp = File('$locateionImg');
+      // locateionImg = imageTemp.toString();
 
-      print('perm $imageTemp');
+      print('perm $locateionImg');
       
       setState(() => this.image = imageTemp);
     } on PlatformException catch(e) {
@@ -83,14 +83,37 @@ Future sendimage() async
 //     request.fields['user'] = 'blah';
 // var uri = Uri.https('https://online.nwk.co.za/Systems/Meterlesings/API.php', 'create');
 //  Uint8List imagebytes = await imagefile.readAsBytes()
-final imageTemp = locateionImg;
-  var postUri = Uri.parse("https://online.nwk.co.za/Systems/Meterlesings/API.php");
-    var request = new http.MultipartRequest("POST", postUri);
-    request.fields['function'] = 'preDom';
-    request.files.add(new http.MultipartFile.fromBytes('file', 
-    await File.fromUri(Uri.parse("<path/to/file>")).readAsBytes(), contentType: new MediaType('image', 'jpeg')));
+// final imageTemp = locateionImg;
+// File imagefile = locateionImg;
+      final imageTemp = File('$locateionImg');
+     String filePath =locateionImg! ;
+  // imageTemp.readAsBytes();
+  // var postUri = Uri.parse("https://online.nwk.co.za/Systems/Meterlesings/API.php");
+  //   var request = new http.MultipartRequest("POST", postUri);
+  //   request.fields['function'] = 'preDom';
+  //   request.files.add(new http.MultipartFile.fromBytes('zfile', 
+  //   await File.fromUri(Uri.parse("<path/to/file>")).readAsBytes(), contentType: new MediaType('image', 'jpeg')));
+var postUri = Uri.parse("https://online.nwk.co.za/Systems/Meterlesings/API.php");
 
-    request.send().then((response) {
+http.MultipartRequest request = new http.MultipartRequest("POST", postUri);
+    request.fields['function'] = 'preDom';
+    request.fields['image'] = 'etss';
+
+http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+    'package',
+    filePath,
+    // filename: 'test.jpg',
+    // contentType: MediaType('image', 'jpeg'),  
+);
+  // http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+  //   'image', filePath,
+  //   {contentType: new MediaType('image', 'jpeg')}); 
+
+    request.files.add(multipartFile);
+    request.send().then((response) async {
+    var responseString = await response.stream.bytesToString();
+print("HTML_RESULT $responseString");
+      // print('Test ${response.stream.bytesToString()}');
       if (response.statusCode == 200) print("Uploaded!");
     });
 
