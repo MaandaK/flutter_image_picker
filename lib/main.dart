@@ -65,8 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if(image == null) return;
-      locateionImg = image.path.toString();
+      // locateionImg = image.path.toString();
       final imageTemp = File(image.path);
+      locateionImg = imageTemp.toString();
+
       print('perm $imageTemp');
       
       setState(() => this.image = imageTemp);
@@ -80,14 +82,13 @@ Future sendimage() async
 // request.fields['user'] = 'someone@somewhere.com';
 //     request.fields['user'] = 'blah';
 // var uri = Uri.https('https://online.nwk.co.za/Systems/Meterlesings/API.php', 'create');
-final imageTemp = File(locateionImg);
- Uint8List imagebytes = await imageTemp.readAsBytes()
-
+//  Uint8List imagebytes = await imagefile.readAsBytes()
+final imageTemp = locateionImg;
   var postUri = Uri.parse("https://online.nwk.co.za/Systems/Meterlesings/API.php");
     var request = new http.MultipartRequest("POST", postUri);
     request.fields['function'] = 'preDom';
     request.files.add(new http.MultipartFile.fromBytes('file', 
-    await File.fromUri(Uri.parse(imageTemp).readAsBytes(), contentType: new MediaType('image', 'jpeg')));
+    await File.fromUri(Uri.parse("<path/to/file>")).readAsBytes(), contentType: new MediaType('image', 'jpeg')));
 
     request.send().then((response) {
       if (response.statusCode == 200) print("Uploaded!");
