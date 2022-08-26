@@ -1,0 +1,4 @@
+#Fri Aug 26 15:04:38 CAT 2022
+base.0=C\:\\Users\\maandak96\\Desktop\\Flutter\\camera\\flutter_image_picker\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
